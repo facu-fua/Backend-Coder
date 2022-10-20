@@ -44,3 +44,5 @@ console.log(usuario1.getFullName())
 usuario1.addMascota("lala")
 console.log(usuario1.countMascotas(), usuario1.mascotas)
 console.log(usuario1.getBookNames())
+
+
