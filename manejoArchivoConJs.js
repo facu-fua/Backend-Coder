@@ -12,24 +12,22 @@ class Contenedor {
     async save(obj) {
         try {
             const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"));
+            let idMax = 0
             const idUltimoObj = array.forEach(element => {
-                let idMax = 0
                 if (element.id > idMax){
                     idMax = element.id
                     console.log(idMax,element.id)
                 }
                 return idMax
             })
-            console.log(idUltimoObj)
             const id=idUltimoObj+1;
-            console.log(id,idUltimoObj)
-            /* nuevoObj = {
+            const nuevoObj = {
                 id: id,
                 title: obj.title,
                 price: obj.price,
                 thumbnail: obj.thumbnail
             }
-            await fs.promises.appendFile(this.ruta, obj, error=>{console.log(error)}) */
+            await fs.promises.appendFile(this.ruta, obj, error=>{console.log(error)})
         } catch (error) {
             console.log("Hubo un error!", error)
         }
@@ -94,4 +92,9 @@ class Contenedor {
 }
 
 const nuevo = new Contenedor("./archivo.txt")
-nuevo.save()
+nuevo.save({title: "Silla", price: 2000, thumbnail:"200x200"})
+nuevo.save({title: "Mesa", price: 4000, thumbnail:"200x200"})
+nuevo.save({title: "Placard", price: 8000, thumbnail:"200x200"})
+nuevo.save({title: "Biblioteca", price: 6000, thumbnail:"200x200"})
+nuevo.save({title: "Comoda", price: 3000, thumbnail:"200x200"})
+
