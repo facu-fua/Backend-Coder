@@ -1,12 +1,32 @@
 [
-    {
-      "nombre": "Pantalon",
-        "id": 1,
-        "precio": 2300
-    },
-    {
-        "nombre": "Remera",
-        "id": 2,
-        "precio": 1500
-    }
+  {
+    "id": 1,
+    "title": "Silla",
+    "price": 2000,
+    "thumbnail": "200x200"
+  },
+  {
+    "id": 2,
+    "title": "Mesa",
+    "price": 4000,
+    "thumbnail": "200x200"
+  },
+  {
+    "id": 3,
+    "title": "Placard",
+    "price": 8000,
+    "thumbnail": "200x200"
+  },
+  {
+    "id": 4,
+    "title": "Biblioteca",
+    "price": 6000,
+    "thumbnail": "200x200"
+  },
+  {
+    "id": 5,
+    "title": "Comoda",
+    "price": 3000,
+    "thumbnail": "200x200"
+  }
 ]

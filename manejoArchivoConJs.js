@@ -1,7 +1,5 @@
 const fs = require("fs");
-const {
-    json
-} = require("stream/consumers");
+
 
 class Contenedor {
     constructor(ruta) {
@@ -13,33 +11,37 @@ class Contenedor {
         try {
             const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"));
             let idMax = 0
-            const idUltimoObj = array.forEach(element => {
-                if (element.id > idMax){
-                    idMax = element.id
-                    console.log(idMax,element.id)
+            array.forEach((element) => {
+                if (element.id > idMax) {
+                    idMax = element.id;
                 }
-                return idMax
             })
-            const id=idUltimoObj+1;
+            const id = idMax + 1;
             const nuevoObj = {
                 id: id,
                 title: obj.title,
                 price: obj.price,
                 thumbnail: obj.thumbnail
             }
-            await fs.promises.appendFile(this.ruta, obj, error=>{console.log(error)})
+            array.push(nuevoObj)
+
+            await fs.promises.writeFile(this.ruta, JSON.stringify(array, null, 2), error => {
+                console.log(error)
+            })
         } catch (error) {
             console.log("Hubo un error!", error)
         }
     }
 
     //Devuelve el objeto por id o null si no esta
+    //darle return al objeto reemplazando el console log
     async getById(id) {
         try {
             const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"));
             const objeto = array.filter(ele => ele.id === id)
             if (objeto.length !== 0) {
-                console.log(objeto)
+                return objeto
+                //console.log(objeto)
             } else {
                 console.log("Ese producto no existe")
             }
@@ -52,7 +54,8 @@ class Contenedor {
     async getAll() {
         try {
             const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"));
-            console.log(array);
+            return array
+            //console.log(array);
         } catch (error) {
             console.log("Hubo un error!", error);
         }
@@ -64,10 +67,10 @@ class Contenedor {
             //traigo el array de objetos
             const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"))
             //utilizo metodo de arrays para borrar al que le pase por id
-            const nuevoArray = array.splice(id, 1)
+            const nuevoArray = array.filter(ele=>ele.id!==id)
             console.log(nuevoArray)
             //reescribo el contenido en el archivo
-            const reEscribir = await fs.promises.writeFile(this.ruta, JSON.stringify(nuevoArray,null,2), error => {
+            const reEscribir = await fs.promises.writeFile(this.ruta, JSON.stringify(nuevoArray, null, 2), error => {
                 console.log(error)
             })
         } catch (error) {
@@ -78,7 +81,7 @@ class Contenedor {
     //Elimina todos los objetos del archivo
     async deleteAll() {
         try {
-            const vaciar = await fs.promises.writeFile(this.ruta, [], error => {
+            await fs.promises.writeFile(this.ruta, JSON.stringify([], null, 2), error => {
                 if (error) {
                     console.log(error)
                 } else {
@@ -88,13 +91,7 @@ class Contenedor {
         } catch (error) {
             console.log("Hubo un error!", error);
         }
-    } // :void
+    }
 }
 
 const nuevo = new Contenedor("./archivo.txt")
-nuevo.save({title: "Silla", price: 2000, thumbnail:"200x200"})
-nuevo.save({title: "Mesa", price: 4000, thumbnail:"200x200"})
-nuevo.save({title: "Placard", price: 8000, thumbnail:"200x200"})
-nuevo.save({title: "Biblioteca", price: 6000, thumbnail:"200x200"})
-nuevo.save({title: "Comoda", price: 3000, thumbnail:"200x200"})
-
