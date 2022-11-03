@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Formulario</h1>
+
+    <h2>Ingrese el producto</h2>
+    <form action="/productos" method="post" name="productos"> <!-- en action va la url del router -->
+        <div>Titulo: <input type="text" name="title" id="" required></div><!-- "required" hace obligatorio -->
+        <div>Precio: <input type="text" name="price" id="" required></div>
+        <div>Imagen: <input type="file" name="thumbnail" id="" required></div><!-- agregar lo de multer -->
+        <button>Enviar</button>
+    </form>
+    
+</body>
+</html>

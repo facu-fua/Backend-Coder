@@ -1,0 +1,43 @@
+//ejercicio 1
+const express = require('express');
+const {Router} = express;
+const app = express();
+
+app.use(express.static(__dirname + "/public"))//llama a los archivos de la carpeta public
+app.use(express.urlencoded({extended: true})); //recibe los parametros, los formatea a json para poder verlos
+
+const routerMascotas = new Router();
+routerMascotas.use(express.json);
+
+const pets = [];
+
+const saludo = (req,resp,next)=>{ //se puede poner next ya que el resto no se usa
+    console.log("Se utilizo get de routerMascotas");
+    next() //esto hace que pase a la siguiente funcion
+}
+
+routerMascotas.get('/mascotas', (req,resp)=>{
+    resp.send(pets)
+});
+
+routerMascotas.post('/mascotas', saludo, (req,resp)=>{//aca se coloca el middleware de ruta
+    const {body} = req;
+    pets.push(body);
+    resp.send(body)
+});
+
+app.use('/', routerMascotas);
+
+const port = 8080;
+const server = app.listen(port,()=>{
+    console.log(`Servidor escuchando en https://localhost:${port}`)
+});
+
+server.on("error", (error)=>{
+    console.log("Error en el servidor",error);
+});
+
+//----------------------------------------------------------
+
+//
+
