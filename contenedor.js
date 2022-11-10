@@ -1,5 +1,4 @@
-const fs = require("fs");
-
+const fs = require('fs')
 
 class Contenedor {
     constructor(ruta) {
@@ -24,7 +23,6 @@ class Contenedor {
                 thumbnail: obj.thumbnail
             }
             array.push(nuevoObj)
-
             await fs.promises.writeFile(this.ruta, JSON.stringify(array, null, 2), error => {
                 console.log(error)
             })
@@ -55,7 +53,6 @@ class Contenedor {
         try {
             const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"));
             return array
-            //console.log(array);
         } catch (error) {
             console.log("Hubo un error!", error);
         }
@@ -92,6 +89,20 @@ class Contenedor {
             console.log("Hubo un error!", error);
         }
     }
+
+    async update (id, title, price){
+        try {
+            const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"))
+            const producto = array.find(ele =>ele.id === id)
+            producto.title = title;
+            producto.price = price;
+            const nuevoArray = array.filter(ele=>ele.id!==id)
+            nuevoArray.push(producto)
+            return producto;
+        } catch (error) {
+            console.log(erro)
+        }
+    }
 }
 
-const nuevo = new Contenedor("./archivo.txt")
+module.exports = Contenedor;
