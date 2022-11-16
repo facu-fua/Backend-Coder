@@ -36,12 +36,11 @@ class Contenedor {
     async getById(id) {
         try {
             const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"));
-            const objeto = array.filter(ele => ele.id === id)
-            if (objeto.length !== 0) {
+            const objeto = array.find(ele => ele.id == id)
+            if (objeto !== undefined) {
                 return objeto
-                //console.log(objeto)
             } else {
-                console.log("Ese producto no existe")
+                return (undefined)
             }
         } catch (error) {
             console.log("Hubo un error!", error)
@@ -64,10 +63,9 @@ class Contenedor {
             //traigo el array de objetos
             const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"))
             //utilizo metodo de arrays para borrar al que le pase por id
-            const nuevoArray = array.filter(ele=>ele.id!==id)
-            console.log(nuevoArray)
+            const nuevoArray = array.filter(ele => ele.id != id)
             //reescribo el contenido en el archivo
-            const reEscribir = await fs.promises.writeFile(this.ruta, JSON.stringify(nuevoArray, null, 2), error => {
+            await fs.promises.writeFile(this.ruta, JSON.stringify(nuevoArray, null, 2), error => {
                 console.log(error)
             })
         } catch (error) {
@@ -90,17 +88,20 @@ class Contenedor {
         }
     }
 
-    async update (id, title, price){
+    async update(id, title, price) {
         try {
             const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"))
-            const producto = array.find(ele =>ele.id === id)
+            const producto = array.find(ele => ele.id == id)
             producto.title = title;
             producto.price = price;
-            const nuevoArray = array.filter(ele=>ele.id!==id)
+            const nuevoArray = array.filter(ele => ele.id != id)
             nuevoArray.push(producto)
+            await fs.promises.writeFile(this.ruta, JSON.stringify(nuevoArray, null, 2), error => {
+                console.log(error)
+            })
             return producto;
         } catch (error) {
-            console.log(erro)
+            console.log(error)
         }
     }
 }
