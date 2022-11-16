@@ -1,0 +1,18 @@
+h1 Productos
+if array1.length == 0
+    p No hay ningún productos en el sistema.
+else
+    table
+        thead
+            tr
+                th Id
+                th Nombre
+                th Precio
+                th Imagen 
+        tbody
+            each producto in array1
+                tr
+                    th= producto.id
+                    td= producto.title
+                    td= producto.price 
+                    td= producto.url
