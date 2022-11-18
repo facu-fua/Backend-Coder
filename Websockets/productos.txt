@@ -30,9 +30,8 @@
     "thumbnail": "https://via.placeholder.com/150"
   },
   {
-    "id": 6
-  },
-  {
-    "id": 7
+    "id": 6,
+    "title": "colchon",
+    "price": "2000"
   }
 ]

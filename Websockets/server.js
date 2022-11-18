@@ -5,6 +5,7 @@ const routerProductos = express.Router()
 const Contenedor = require('./contenedor');
 const nuevo = new Contenedor('./productos.txt');
 
+const mensajes = [];
 
 //Socket.io
 const { Server: HttpServer } = require('http');
@@ -12,10 +13,20 @@ const { Server: IOServer } = require('socket.io');
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
-io.on('connection', socket => {
-    console.log('Nuevo cliente conectado!');
-    socket.emit('mensajes', mensajes);
 
+//Detecta una nueva conexion, la informa y envia los mensajes almacenados, si se detecta un msj nuevo, lo envia
+io.on('connection', async socket => {
+    console.log('Nuevo cliente conectado!');
+    const productos = await nuevo.getAll();
+    socket.emit('mensajes', mensajes);
+    socket.emit('productos', productos);
+
+    socket.on('new-product', async data =>{
+        console.log(data)
+        const newProduct = await nuevo.save(data);
+        productos.push(newProduct);
+        io.sockets.emit('productos', productos);
+    })
     socket.on('new-message', data => {
         mensajes.push(data);
         io.sockets.emit('mensajes', mensajes);
@@ -24,7 +35,7 @@ io.on('connection', socket => {
 
 //Solucionar: cada vez que uso el link a productos, se carga un item vacio
 
-app.set('views', __dirname + '/views')
+app.set('views', __dirname + '/public/views/layouts')
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
@@ -34,8 +45,8 @@ app.use('/', routerProductos)
 app.engine('hbs', handlebars.engine({
     extname: '.hbs',
     defaultLayout: 'index.hbs',
-    layoutsDir: __dirname + '/views/layouts',
-    partialsDir: __dirname + '/views/partials'
+    layoutsDir: __dirname + '/public/views/layouts',
+    partialsDir: __dirname + '/public/views/partials'
 }))
 
 const port = 8080;
@@ -48,23 +59,19 @@ server.on("error", (error) => {
 });
 
 
-routerProductos.get('/productos', async (req, resp) => {
+routerProductos.get('/', async (req, resp) => {
     try {
-        const array1 = await nuevo.getAll();
-        resp.render('tabla', {
-            array1
-        });
+        resp.render('index');
     } catch (error) {
         console.log(error);
     }
-
-});
-
+})
 
 
 
 
-const mensajes = [];
+
+
 
 
 

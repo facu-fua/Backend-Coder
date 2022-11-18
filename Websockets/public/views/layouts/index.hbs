@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Websockets</title>
+    <script src="socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <div id="form">
+        <form onsubmit="return newProduct(this)">
+        <div>
+            <h1>Ingrese los datos del producto</h1>
+        </div>
+            <div>
+                <div>
+                    Titulo: <input id="titulo" type="text" name="title">
+                </div>
+            <div>
+                Precio: <input id="precio" type="text" name="price">
+            </div>
+            <div>
+                URL de la imagen: <input id="url" type="text" name="url">
+            </div>
+        <div>
+            <button id="formSubmit">Enviar</button>
+        </div>
+    </div>
+        </form>
+    </div>
+    <div id="productos">
+        <h1>Productos</h1>
+        <table>
+    <thead>
+        <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Imagen</th>
+        </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+</table>
+    </div>
+    <div id="chat">
+        <h1>Chat</h1>
+        <form onsubmit="return addMessage(this)">
+            <input type="text" id="nombre" name="nombre" placeholder="ingresa tu nombre">
+            <input type="text" id="mensaje" name="mensaje" placeholder="escribe tu mensaje">
+            <button>Enviar</button>
+        </form>
+        <div id="messages"></div>
+    </div>    
+    <script src="../../js/main.js"></script>
+</body>
+
+</html>
