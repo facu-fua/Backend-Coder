@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Productos</title>
 </head>
 <body>
     <h1>Formulario</h1>
 
     <h2>Ingrese el producto</h2>
-    <form action="/productos" method="post" name="productos"> <!-- en action va la url del router -->
+    <form action="/api/productos" method="post" name="productos"> <!-- en action va la url del router -->
         <div>Titulo: <input type="text" name="title" id="" required></div><!-- "required" hace obligatorio -->
-        <div>Precio: <input type="text" name="price" id="" required></div>
+        <div>Precio: <input type="number" name="price" id="" required></div>
+        <div>Descripcion: <input type="text" name="description" required></div>
+        <div>Codigo: <input type="text" name="code" required></div>
         <div>URL Imagen: <input type="text" name="thumbnail" required></div>
+        <div>Cantidad: <input type="number" name="quantity" required></div>
         <!-- <div>Imagen: <input type="file" name="thumbnail" id="" required></div> --><!-- agregar lo de multer -->
         <button>Enviar</button>
     </form>

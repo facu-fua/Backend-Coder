@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "timestamp": 1669345430901,
+    "cartProducts": [{"cosas": 5}]
+  },
+  {
+    "id": 2,
+    "timestamp": 1669345559121,
+    "cartProducts": []
+  },
+  {
+    "id": 3,
+    "timestamp": 1669345577214,
+    "cartProducts": []
+  },
+  {
+    "id": 4,
+    "timestamp": 1669345657793,
+    "cartProducts": []
+  },
+  {
+    "id": 5,
+    "timestamp": 1669345705437,
+    "cartProducts": []
+  },
+  {
+    "id": 6,
+    "timestamp": 1669345738369,
+    "cartProducts": []
+  }
+]

@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-class Contenedor {
+class ContenedorProductos {
     constructor(ruta) {
         this.ruta = ruta;
     }
@@ -18,9 +18,13 @@ class Contenedor {
             const id = idMax + 1;
             const nuevoObj = {
                 id: id,
+                timeStamp: Date.now(),
                 title: obj.title,
+                description: obj.description,
+                code: obj.code,
                 price: obj.price,
-                thumbnail: obj.thumbnail
+                thumbnail: obj.thumbnail,
+                quantity: obj.quantity
             }
             array.push(nuevoObj)
             await fs.promises.writeFile(this.ruta, JSON.stringify(array, null, 2), error => {
@@ -106,4 +110,4 @@ class Contenedor {
     }
 }
 
-module.exports = Contenedor;
+module.exports = ContenedorProductos;
