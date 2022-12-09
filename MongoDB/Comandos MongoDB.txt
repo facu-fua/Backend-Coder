@@ -1,0 +1,41 @@
+1)
+use ecommerce
+db.createCollection("mensajes") 
+db.createCollection("productos")
+
+2)
+db.mensajes.insertMany([{"timeStamp": 1669344071564, "email": "jorge123@hotmail.com", "mensaje":"Hola"}, {"timeStamp": 1669344071570, "email": "manuel55@hotmail.com", "mensaje":"Como va?"}, {"timeStamp": 1669344071580, "email": "jorge123@hotmail.com", "mensaje":"Aca todo tranquilo"}, {"timeStamp": 1669344071590, "email": "manuel55@hotmail.com", "mensaje":"Me alegro"}, {"timeStamp": 1669344071600, "email": "manuel55@hotmail.com", "mensaje":"Que hiciste el finde?"}, {"timeStamp": 1669344071610, "email": "jorge123@hotmail.com", "mensaje":"Un asado y salida tranquila"}, {"timeStamp": 1669344071620, "email": "jorge123@hotmail.com", "mensaje":"Vos?"}, {"timeStamp": 1669344071630, "email": "manuel55@hotmail.com", "mensaje":"Tuve el cumpleaños de mi suegra"}, {"timeStamp": 1669344071640, "email": "jorge123@hotmail.com", "mensaje":"Uh, que suerte, que tal estuvo?"}, {"timeStamp": 1669344071650, "email": "manuel55@hotmail.com", "mensaje":"Muy bueno, habia barra libre"}])
+
+db.productos.insertMany([{"timeStamp": 1669344071462, "title": "Chocolate", "description": "dulce", "code": "55qq", "price": 600, "thumbnail": "https://via.placeholder.com/150"}, {"timeStamp": 1669344072546, "title": "Buzo", "description": "abrigado", "code": "551a", "price": 3600, "thumbnail": "https://via.placeholder.com/150"}, {"timeStamp": 1669344073589, "title": "Jean", "description": "apretado", "code": "612s", "price": 4000, "thumbnail": "https://via.placeholder.com/150"}, {"timeStamp": 1669344071548, "title": "Manzana", "description": "sana", "code": "as58", "price": 300, "thumbnail": "https://via.placeholder.com/150"}, {"timeStamp": 1669344071222, "title": "Calculadora", "description": "calcula", "code": "152s", "price": 2700, "thumbnail": "https://via.placeholder.com/150"}, {"timeStamp": 1669344075689, "title": "Stickers", "description": "originales", "code": "asq8", "price": 750, "thumbnail": "https://via.placeholder.com/150"}, {"timeStamp": 1669344071547, "title": "Mouse", "description": "rapido", "code": "885s", "price": 5200, "thumbnail": "https://via.placeholder.com/150"}, {"timeStamp": 1669344078888, "title": "Auriculares", "description": "musica", "code": "cxfa", "price": 4180, "thumbnail": "https://via.placeholder.com/150"}, {"timeStamp": 1669344079485, "title": "Cigarrillos", "description": "toxico", "code": "8w5s", "price": 800, "thumbnail": "https://via.placeholder.com/150"}, {"timeStamp": 1669344071564, "title": "Cable", "description": "corto", "code": "998w", "price": 1050, "thumbnail": "https://via.placeholder.com/150"}])
+
+3) 
+db.mensajes.find()
+db.productos.find()
+
+4)
+db.mensajes.estimatedDocumentCount()
+db.productos.estimatedDocumentCount()
+
+5)
+a)
+db.productos.insertOne({"timeStamp": 1669344072555, "title": "Tarjeta", "description": "colectivo", "code": "5ks1", "price": 450, "thumbnail": "https://via.placeholder.com/150"})
+
+b)
+i) db.productos.find({"price": {$lt: 1000}})
+ii) db.productos.find({$and:[{"price": {$gte: 1000}}, {"price": {$lte: 3000}}]})
+iii) db.productos.find({"price": {$gt: 3000}})
+iv) db.productos.find({},{title:1}).skip(2).limit(1).sort({price:1})
+
+c)db.productos.updateMany({}, {$set:{"stock":100}},{upsert:false, multi:true})
+
+d)db.productos.updateMany({"price": {$gt:4000}}, {$set:{"stock":0}},{upsert:false, multi:true})
+
+e)db.productos.deleteMany({"price": {$lt:1000}})
+
+6)
+use admin
+db.createUser({"usuario":"pepe", "clave":"asd456", "roles":[{"role": "read", "db": "ecommerce"}]})
+
+mongo -u pepe -p asd456
+use ecommerce
+db.productos.insertOne({"timeStamp": 1669344073895, "title": "Piedra", "description": "dura", "code": "8ss1", "price": 100, "thumbnail": "https://via.placeholder.com/150"})
