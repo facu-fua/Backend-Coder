@@ -5,6 +5,7 @@
 .pnp.js
 .env*
 /node_modules
+serviceAccountKeyCoder.json
 
 # testing
 /coverage

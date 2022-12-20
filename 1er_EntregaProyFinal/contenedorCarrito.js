@@ -33,7 +33,7 @@ class ContenedorCarrito {
             const id = idMax + 1;
             const nuevoCarrito = {
                 id: id,
-                timestamp: Date.now(), //revisar
+                timestamp: Date.now(),
                 cartProducts: []
             }
             array.push(nuevoCarrito)
@@ -62,7 +62,7 @@ class ContenedorCarrito {
         }
     };
 
-    async emptyCart(id) {
+    async removeCart(id) { //seria removeCarrito esta operacion
         try {
             const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"))
             const nuevoArray = array.filter(ele => ele.id != id)
@@ -74,11 +74,11 @@ class ContenedorCarrito {
         }
     };
 
-    async removeProduct(idProducto, idCarrtio) {
+    async removeProduct(idProducto, idCarrito) {
         try {
             const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"));
-            const cart = array.find(ele => ele.id == idCarrtio);
-            const newProductList = cart.filter(element =>{
+            const cart = array.find(ele => ele.id == idCarrito);
+            const newProductList = cart.cartProducts.filter(element => {
                 element.id != idProducto
             });
             cart.cartProducts = newProductList;
@@ -87,20 +87,14 @@ class ContenedorCarrito {
         }
     };
 
-async getCarritos(){
-    try {
-        const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"));
-        return array
-    } catch (error) {
-        console.log("Hubo un error!", error);
+    async getCarritos() {
+        try {
+            const array = JSON.parse(await fs.promises.readFile(this.ruta, "utf-8"));
+            return array
+        } catch (error) {
+            console.log("Hubo un error!", error);
+        }
     }
-}
-
-
-
-
-
-
 }
 
 module.exports = ContenedorCarrito;

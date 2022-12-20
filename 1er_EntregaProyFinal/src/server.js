@@ -33,12 +33,15 @@ server.on("error", (error) => {
 /* routerProductos.get('/api/productos', async (req, resp) => {
     try {
         const array1 = await objetoProducto.getAll()
-        resp.json(array1) 
+        resp.json(array1)
     } catch (error) {
         console.log(error)
     }
 }) */
 
+// Chat
+
+// CRUD Productos
 routerProductos.get('/api/productos/:id?', async (req, resp) => {
     const id = parseInt(req.params.id)
     try {
@@ -116,6 +119,7 @@ routerProductos.delete('/api/productos/:id', async (req, resp) => {
     }
 })
 
+// CRUD Carrito
 //falta agregar condicionales en caso de que los id no existan o no se encuentren
 routerCarrito.get('/api/carrito/:id/productos', async ( req, resp) => {
     const id = parseInt(req.params.id);
@@ -141,11 +145,11 @@ routerCarrito.delete('/api/carrito/:id', async ( req, resp) => {
     const carts = objetoCart.getCarritos()
     const existe = carts.find(ele => ele.id == id);
     if (existe!=undefined){
-        await objetoCart.emptyCart(id)
+        await objetoCart.removeCart(id)
         resp.send(`El carrito fue eliminado con exito!`);
     }else{
         resp.send(`El id del carrito no existe.`)
-    }    
+    }
 })
 
 routerCarrito.delete('/api/carrito/:id/productos/:id_prod', async ( req, resp) => {
