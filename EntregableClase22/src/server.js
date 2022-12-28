@@ -1,19 +1,27 @@
-const express = require('express');
+const express = require("express")
 const app = express();
-const handlebars = require('express-handlebars')
-const routerProductos = express.Router()
-const ContenedorProductos = require('./contenedor');
-const ContenedorMensajes = require ("./contenedorMensajes");
-const nuevo = new ContenedorProductos('./productos.txt');
-const arrayMensajes = new ContenedorMensajes('./mensajes.txt');
+const handlebars = require('express-handlebars');
 
-//const mensajes = [];
+//Como cambiar esto? Sacarlo de server
+const router = express.Router();
+const routerTest = express.Router();
+const ContenedorProductos = require('./Containers/contenedorProductos');
+const ContenedorMensajes = require ("./Containers/contenedorMensajes");
+const nuevo = new ContenedorProductos("./Persistence/productos.txt");
+const arrayMensajes = new ContenedorMensajes("./Persistence/mensajes.txt");
+//---------------------------------
 
 //Socket.io
 const { Server: HttpServer } = require('http');
 const { Server: IOServer } = require('socket.io');
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
+
+const routerCarritos = require("./Routes/routerCarritos");
+const routerProductos = require("./Routes/routerProductos");
+
+const port = 8080;
+const administrador = true;
 
 
 //Detecta una nueva conexion, la informa y envia los mensajes almacenados, si se detecta un msj nuevo, lo envia
@@ -43,33 +51,34 @@ io.on('connection', async socket => {
     })
 });
 
-//Solucionar: cada vez que uso el link a productos, se carga un item vacio
-
-app.set('views', __dirname + '/public/views/layouts')
+app.set('views', '../public/views/layouts')
 app.set('view engine', 'hbs')
+
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static('../public'));
 app.use(express.json());
-app.use('/', routerProductos)
+
+app.use('/', routerProductos);
+app.use('/', routerCarritos);
+app.use('/', router);
+app.use('/', routerTest);
 
 app.engine('hbs', handlebars.engine({
     extname: '.hbs',
     defaultLayout: 'index.hbs',
-    layoutsDir: __dirname + '/public/views/layouts',
-    partialsDir: __dirname + '/public/views/partials'
+    layoutsDir: '../public/views/layouts',
+    partialsDir: '../public/views/partials'
 }))
 
-const port = 8080;
-
 const server = httpServer.listen(port, () => {
-    console.log(`servidor escuchando en http://localhost:${port}`);
+    console.log(`Servidor corriendo en https://localhost:${port}`)
 });
+
 server.on("error", (error) => {
     console.log("Error en el servidor", error);
 });
 
-
-routerProductos.get('/', async (req, resp) => {
+router.get('/', async (req, resp) => {
     try {
         resp.render('index');
     } catch (error) {
@@ -77,7 +86,13 @@ routerProductos.get('/', async (req, resp) => {
     }
 })
 
-
+routerTest.get("/api/test", (req,resp) =>{
+    try {
+        resp.render('indexTest',); //Carga index en vez de indexTest
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 
 

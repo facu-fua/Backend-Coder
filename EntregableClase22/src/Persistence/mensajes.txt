@@ -1,0 +1,24 @@
+[
+  {
+    "author": {
+      "id": "facu@jeje.com",
+      "nombre": "Facundo",
+      "apellido": "Fajardo",
+      "edad": "96",
+      "alias": "facu",
+      "avatar": ""
+    },
+    "text": "qweqweq"
+  },
+  {
+    "author": {
+      "id": "facu@hotmail.com",
+      "nombre": "Facundo",
+      "apellido": "Fajardo",
+      "edad": "76",
+      "alias": "facu",
+      "avatar": "www.image.com"
+    },
+    "text": "wwweeeqq"
+  }
+]

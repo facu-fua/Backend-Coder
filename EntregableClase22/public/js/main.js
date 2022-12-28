@@ -1,6 +1,6 @@
-const socket = io.connect();
+const socket = io.connect(); /* error: not defined? */
 
-const newProduct = () =>{
+const newProduct = () => {
     let titulo = document.getElementById("titulo").value;
     let precio = document.getElementById("precio").value;
     let url = document.getElementById("url").value;
@@ -21,7 +21,7 @@ const newProduct = () =>{
     })
 } */
 
-const renderProductos = (data) =>{
+const renderProductos = (data) => {
     console.log(data)
     const html = data.map((elem, index) => {
             return `
@@ -46,35 +46,48 @@ socket.on("productos", function (data) {
     renderProductos(data);
 });
 
-function borrarProducto(id){
+function borrarProducto(id) {
     socket.emit("delete-product", id);
     return false
 }
-function modificarProducto(id){
+
+function modificarProducto(id) {
     console.log(`Modificado ${id}`) //tiene que abrir un formulario con los datos del producto, y permitir modificarlos
 }
 
 
 function addMessage() {
+    const email = document.getElementById("email").value;
     const nombre = document.getElementById("nombre").value;
+    const apellido = document.getElementById("apellido").value;
+    const edad = document.getElementById("edad").value;
+    const alias = document.getElementById("alias").value;
+    const avatar = document.getElementById("avatar").value;
     const mensaje = document.getElementById("mensaje").value;
 
     const nuevoMensaje = {
-        fecha: Date(),
-        nombre: nombre,
-        mensaje: mensaje,
+        author: {
+            id: email,
+            nombre: nombre,
+            apellido: apellido,
+            edad: edad,
+            alias: alias,
+            avatar: avatar
+        },
+        text: mensaje
     };
-
+    console.log(nuevoMensaje)
     socket.emit("new-message", nuevoMensaje);
     return false;
 }
 
 function renderChat(data) {
+    console.log(data)
     const html = data.map((elem, index) => {
-        return `
+            return `
             <div>
-            <strong>${elem.nombre} ${elem.fecha}</strong>:
-            <em>${elem.mensaje}</em>
+            <strong>${elem.author.alias}</strong>:
+            <em>${elem.text}</em>
             </div>
             `;
         })
