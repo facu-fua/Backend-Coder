@@ -6,6 +6,7 @@ const app = express();
 
 app.use(cookieParser("123"));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
 app.get("/cookies", (req,res) => {

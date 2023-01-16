@@ -8,6 +8,7 @@ const app = express();
 const FileStore = store(expressSession);
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(expressSession({
     store: new FileStore({ path: "./sesiones", ttl: 300, retries: 0}),

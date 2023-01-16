@@ -7,6 +7,7 @@ dotenv.config();
 const advanceOptions = {useNewUrlParser: true, useUnifiedTopology: true};
 const url = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}/${process.env.MONGO_DBNAME}?retryWrites=true&w=majority`;
 const app = express();
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(expressSession({
     store: MongoStore.create({mongoUrl: url, mongoOptions: advanceOptions}),

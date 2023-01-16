@@ -5,6 +5,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser("123"));
+app.use(express.urlencoded({ extended: true }));
 app.use(expressSession({
     secret: "123",
     resave: false,
