@@ -31,7 +31,7 @@ app.set("view engine", ".hbs");
 app.use(express.static('public'));
 
 //rutas
-app.get("/registe", (res, req) => {
+app.get("/register", (res, req) => {
     //manda el archivo que queremos como vista
     res.sendFile(__dirname + "views/register.html");
 });

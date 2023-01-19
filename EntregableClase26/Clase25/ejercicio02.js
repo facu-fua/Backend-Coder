@@ -2,51 +2,35 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const passport = require('passport');
-const {
-    Strategy: LocalStrategy
-} = require('passport-local');
+const { Strategy: LocalStrategy } = require('passport-local');
 
 // persistencia
 const usuarios = [];
 
 // passport config
-
-passport.use('register', new LocalStrategy({
-    passReqToCallback: true
-}, (req, username, password, done) => {
-
-    const {
-        direccion
-    } = req.body
-
-    const usuario = usuarios.find(u => u.username === username)
-
+passport.use('register', new LocalStrategy({ passReqToCallback: true }, (req, username, password, done) => {
+    const { direccion } = req.body
+    const usuario = usuarios.find (u => u.username === username)
     if (usuario) {
         return done('Usuario ya registrado')
     }
-
     const user = {
         username,
         password,
         direccion,
     }
     usuarios.push(user)
-
     return done(null, user)
 }));
 
 passport.use('login', new LocalStrategy((username, password, done) => {
     const user = usuarios.find(u => u.username === username)
-
-
     if (!user) {
         return done(null, false)
     }
-
     if (user.password !== password) {
         return done(null, false)
     }
-
     user.contador = 0;
     return done(null, user)
 }));
