@@ -1,6 +1,5 @@
 //Imports
 import express from "express";
-import mongoose from "mongoose";
 import mongoConnection from "./config/mongoDbAtlas.js";
 //Routes
 import productRoutes from "./routes/productosRouter.js";
