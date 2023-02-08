@@ -18,6 +18,7 @@ const info = {
 
 const infoRouter = express.Router();
 infoRouter.get("/info", compression(), (req, res) => {
+    //console.log("console.log bloqueante")
     logger.info("Route: /info/compress Method: GET ");
     res.send(info)
 })
