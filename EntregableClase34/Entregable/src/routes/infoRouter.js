@@ -1,6 +1,6 @@
 import express from "express";
 import compression from "compression";
-const os = require('os')
+import os from "node:os"
 //import logger from "../../logger"
 
 const args = process.argv.slice(2);
