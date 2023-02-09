@@ -9,12 +9,10 @@ import mongoConnection from "./src/config/mongoDbAtlas.js";
 import userRouter from './src/routes/userRouter.js';
 import infoRouter from './src/routes/infoRouter.js';
 import randomRouter from './src/routes/randomsRouter.js';
-
+import os from "node:os";
+import cluster from "cluster";
 config();
 
-const app = express()
-const os = require('os')
-const cluster = require('cluster');
 const mode = process.argv[3] || 'fork';
 
 if (mode == 'cluster' && cluster.isPrimary) {
