@@ -1,7 +1,7 @@
 import express from "express";
 import compression from "compression";
 const os = require('os')
-import logger from "../../logger"
+//import logger from "../../logger"
 
 const args = process.argv.slice(2);
 const nroCPUs = os.cpus().length;
@@ -19,7 +19,7 @@ const info = {
 const infoRouter = express.Router();
 infoRouter.get("/info", compression(), (req, res) => {
     //console.log("console.log bloqueante")
-    logger.info("Route: /info/compress Method: GET ");
+    //logger.info("Route: /info/compress Method: GET ");
     res.send(info)
 })
 
