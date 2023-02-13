@@ -5,13 +5,14 @@ import session from 'express-session';
 //import { use, serializeUser, deserializeUser, initialize, session as _session, authenticate } from 'passport';
 //const { Strategy: FacebookStrategy } = require('passport-facebook');
 //import { Strategy as LocalStrategy } from 'passport-local';
-import mongoConnection from "./src/config/mongoDbAtlas.js";
+import mongoConnection from "./src/config/mongoDbAtlas.js"
 import userRouter from './src/routes/userRouter.js';
 import infoRouter from './src/routes/infoRouter.js';
 import randomRouter from './src/routes/randomsRouter.js';
 import os from "node:os";
 import cluster from "cluster";
 config();
+const app = express()
 
 const mode = process.argv[3] || 'fork';
 
@@ -51,7 +52,7 @@ if (mode == 'cluster' && cluster.isPrimary) {
   app.use(urlencoded({
     extended: true
   }));
-  app.use(express.static(__dirname + '/public'));
+  app.use(express.static('./public'));
 
   //Handlebars
   app.engine('.hbs', exphbs.engine({
@@ -66,11 +67,11 @@ if (mode == 'cluster' && cluster.isPrimary) {
   server.on('error', error => console.log(`Error en servidor ${error}`));
 
   // Rutas
-  app.use("/", userRouter);
+  //app.use("/", userRouter);
   app.use("/", infoRouter);
   app.use("/", randomRouter);
 
-  //Passport
+  //Passports
   /*use(new LocalStrategy({
     clientID: FACEBOOK_CLIENT_ID,
     clientSecret: FACEBOOK_CLIENT_SECRET,
