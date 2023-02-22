@@ -1,0 +1,17 @@
+body{
+    background: aqua;
+}
+h1{
+    color: blue;
+}
+.productos{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.producto{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
