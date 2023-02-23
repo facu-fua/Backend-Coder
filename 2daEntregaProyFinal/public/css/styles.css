@@ -5,13 +5,17 @@ h1{
     color: blue;
 }
 .productos{
+    border: black 1px solid;
+    margin: 10px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 .producto{
+    border: black 3px solid;
     margin: 20px;
     display: flex;
     flex-direction: column;
-    align-content: center;
+    justify-content: center;
+    text-align: center;
 }

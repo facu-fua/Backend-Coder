@@ -8,11 +8,13 @@ import mongoDbConnection from "./src/config/mongoDbAtlas.js";
 import os from "node:os";
 import cluster from "cluster";
 import session from "express-session";
+import passport from "passport";
+import localStrategy from "passport-local";
 
 //Router Imports
 import homeRouter from "./src/routes/homeRouter.js";
 import loginRouter from "./src/routes/loginRouter.js"
-import registerRouter from "./src/routes/registerRouter.js"
+import signupRouter from "./src/routes/signupRouter.js"
 import authRouter from "./src/routes/authRouter.js";
 import cartRouter from "./src/routes/cartRouter.js";
 import productsRouter from "./src/routes/productsRouter.js";
@@ -46,6 +48,63 @@ if (mode == 'cluster' && cluster.isPrimary) {
 
     mongoDbConnection();
 
+    //Passport
+    passport.use("login", new localStrategy(
+        (username, password, done) => { //reemplazar por busqueda en mongoDb
+            User.findOne({
+                username
+            }, (err, user) => {
+                if (err)
+                    return done(err);
+                if (!user) {
+                    console.log('User Not Found with username ' + username);
+                    return done(null, false);
+                }
+                if (!isValidPassword(user, password)) {
+                    console.log('Invalid Password');
+                    return done(null, false);
+                }
+                return done(null, user);
+            });
+        }));
+
+    function isValidPassword(user, password) {
+        return bCrypt.compareSync(password, user.password);
+    }
+
+    passport.use('signup', new LocalStrategy({ passReqToCallback: true }, (req, username, password, done) => {
+        User.findOne({ 'username': username}, function (err, user) {
+            if (err) {
+                console.log('Error in SignUp: ' + err);
+                return done(err);
+            }
+            if (user) {
+                console.log('User already exists');
+                return done(null, false)
+            }
+            const newUser = {
+                username: username,
+                password: createHash(password),
+                email: req.body.email,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+            }
+            User.create(newUser, (err, userWithId ) => {
+                if (err) {
+                    console.log('Error in Saving user: ' + err);
+                    return done(err);
+                }
+                console.log(user)
+                console.log('User Registration succesful' );
+                return done(null, userWithId );
+            })
+        })
+    }))
+
+    function createHash (password ) {
+        return bCrypt.hashSync ( password, bCrypt.genS)
+    };
+
     //Middlewares
     app.use(json());
     app.use(urlencoded({
@@ -64,7 +123,7 @@ if (mode == 'cluster' && cluster.isPrimary) {
     app.set('view engine', '.hbs');
 
     app.use(session({
-        secret: "123",
+        secret: "123", //guardar en .env
         resave: false,
         saveUninitialized: false,
         cookie: {
@@ -77,7 +136,7 @@ if (mode == 'cluster' && cluster.isPrimary) {
     app.use("/", cartRouter);
     app.use("/", loginRouter);
     app.use("/", productsRouter);
-    app.use("/", registerRouter);
+    app.use("/", signupRouter);
 
 
     //Conexion

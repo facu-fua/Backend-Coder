@@ -29,7 +29,7 @@ cartRouter.put("/cart", async (req,res) => {
 cartRouter.get("/cart", async (req,res) => {
     try {
         const carrito = await carritoSchema.find()
-        res.render("cart", { title: "Cart", cart: carrito });
+        res.render("cart", { title: "Cart", cart: carrito, jsFile: "cart.js" });
     } catch (error) {
         console.log("Hubo un error al intentar obtener los carritos: ", error)
     }

@@ -1,17 +1,18 @@
 {{>header}}
 <div>
     <h1>Welcome to WoodenWoods!</h1>
-<button>Login</button>
-<button>Cart</button>
-<button>Register</button>
+<button id="loginButton">Login</button>
+<button id="cartButton">Cart</button>
+<button id="signupButton" onclick="">Signup</button>
 </div>
 <div class="productos">
     {{#each products}}
         <div class="producto">
+            <img src="" alt="productImage">
             <h2>{{this.name}}</h2>
-            <h3>{{this.price}}</h3>
+            <h3>$ {{this.price}}</h3>
             <p>{{this.description}}</p>
-            <button>Agregar al carrito</button>
+            <button class="addProductButton" onclick="addProductButton()">Agregar al carrito</button>
         </div>
     {{/each}}
 </div>
