@@ -1,7 +1,4 @@
-import express, {
-    json,
-    urlencoded
-} from "express";
+import express, { json, urlencoded } from "express";
 import exphbs from "express-handlebars";
 import path from "path";
 import mongoDbConnection from "./src/config/mongoDbAtlas.js";
@@ -12,19 +9,17 @@ import passport from "passport";
 import localStrategy from "passport-local";
 
 //Router Imports
-import homeRouter from "./src/routes/homeRouter.js";
-import loginRouter from "./src/routes/loginRouter.js"
-import signupRouter from "./src/routes/signupRouter.js"
-import authRouter from "./src/routes/authRouter.js";
-import cartRouter from "./src/routes/cartRouter.js";
-import productsRouter from "./src/routes/productsRouter.js";
+import homeRouter from "./src/router/homeRouter.js";
+import loginRouter from "./src/router/loginRouter.js"
+import signupRouter from "./src/router/signupRouter.js"
+import authRouter from "./src/router/authRouter.js";
+import cartRouter from "./src/router/cartRouter.js";
+import productsRouter from "./src/router/productsRouter.js";
+import confirmationRouter from "./src/router/confirmation.js";
 
 //__dirname
-import {
-    fileURLToPath
-} from 'url';
-const __filename = fileURLToPath(
-    import.meta.url);
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
@@ -72,7 +67,7 @@ if (mode == 'cluster' && cluster.isPrimary) {
         return bCrypt.compareSync(password, user.password);
     }
 
-    passport.use('signup', new LocalStrategy({ passReqToCallback: true }, (req, username, password, done) => {
+    passport.use('signup', new localStrategy({ passReqToCallback: true }, (req, username, password, done) => {
         User.findOne({ 'username': username}, function (err, user) {
             if (err) {
                 console.log('Error in SignUp: ' + err);
@@ -107,9 +102,7 @@ if (mode == 'cluster' && cluster.isPrimary) {
 
     //Middlewares
     app.use(json());
-    app.use(urlencoded({
-        extended: true
-    }));
+    app.use(urlencoded({ extended: true }));
     app.use(express.static('./public'));
 
     //Handlebars
@@ -137,6 +130,7 @@ if (mode == 'cluster' && cluster.isPrimary) {
     app.use("/", loginRouter);
     app.use("/", productsRouter);
     app.use("/", signupRouter);
+    app.use("/", confirmationRouter)
 
 
     //Conexion

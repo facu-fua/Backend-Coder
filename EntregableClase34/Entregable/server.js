@@ -55,9 +55,9 @@ if (mode == 'cluster' && cluster.isPrimary) {
   app.use(express.static('./public'));
 
   //Handlebars
-  app.engine('.hbs', exphbs.engine({
+  app.engine('.hbs', exphbs({
     extname: '.hbs',
-    defaultLayout: 'main.hbs'
+    defaultLayout: 'main'
   }));
   app.set('view engine', '.hbs');
 

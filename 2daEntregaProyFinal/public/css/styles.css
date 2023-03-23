@@ -19,3 +19,13 @@ h1{
     justify-content: center;
     text-align: center;
 }
+
+#footer{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+
+}
